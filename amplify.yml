@@ -4,7 +4,8 @@ backend:
     build:
       commands:
         - npm install
-        - npx ampx pipeline-deploy --branch $AMPLIFY_BRANCH --app-id $AMPLIFY_APP_ID
+        # 直接ブランチ名を指定するように書き換えます
+        - npx ampx pipeline-deploy --branch main --app-id $AWS_APP_ID
 frontend:
   phases:
     preBuild:
