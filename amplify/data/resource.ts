@@ -1,20 +1,24 @@
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 
 const schema = a.schema({
-  // Bedrock Agentを呼び出すための定義
-  askBedrock: a.generation({
+  // Bedrockを呼び出すための「チャット機能」を定義
+  chat: a.generation({
     aiModel: a.ai.model('Claude 3.5 Sonnet'),
-    systemPrompt: 'あなたはGitHub管理アシスタントです。',
+    systemPrompt: 'あなたは親切なアシスタントです。',
   })
-  .arguments({ prompt: a.string() })
+  .arguments({
+    content: a.string(),
+  })
   .returns(a.string())
-  .authorization(allow => [allow.authenticated()]), // ログイン済みのユーザーのみ許可
+  // 🔴 重要：認証なし(Public)でアクセスを許可する
+  .authorization((allow) => [allow.guest()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
+
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'userPool', // 認証にAmazon Cognitoを使用
+    defaultAuthorizationMode: 'iam', // ゲストアクセスのためにIAMを使用
   },
 });
