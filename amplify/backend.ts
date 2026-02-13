@@ -1,6 +1,7 @@
 import { defineBackend } from '@aws-amplify/backend';
-import { data } from './data/resource';
+// あえて .js を付けてパスを確定させます
+import { data } from './data/resource.js';
 
 defineBackend({
-  data, // auth を削除しました
+  data,
 });
