@@ -1,10 +1,8 @@
 import { defineBackend } from '@aws-amplify/backend';
+// .ts をあえて含めない形式で書き直します
 import { auth } from './auth/resource';
 import { data } from './data/resource';
 
-/**
- * @see https://docs.amplify.aws/react/build-a-backend/ to add storage, functions, and more
- */
 defineBackend({
   auth,
   data,
