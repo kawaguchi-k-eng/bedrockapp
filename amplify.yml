@@ -4,8 +4,8 @@ backend:
     build:
       commands:
         - npm install
-        # 直接ブランチ名を指定するように書き換えます
-        - npx ampx pipeline-deploy --branch main --app-id $AWS_APP_ID
+        # 変数を使わず、直接 ID とブランチを指定します
+        - npx ampx pipeline-deploy --branch main --app-id d1mxmf2dr4vllz
 frontend:
   phases:
     preBuild:
