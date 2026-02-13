@@ -2,43 +2,42 @@
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import { useState } from 'react';
-import { generateClient } from 'aws-amplify/data';
-import type { Schema } from '@/amplify/data/resource';
-
-const client = generateClient<Schema>();
+import { Amplify } from 'aws-amplify';
+// 以下のファイルはAmplifyがビルド時に自動生成しようとしますが、
+// 手動構成の場合は一旦、最小限のインポートに留めます。
 
 export default function App() {
   const [input, setInput] = useState('');
   const [response, setResponse] = useState('');
 
   const handleChat = async () => {
-    const { data, errors } = await client.queries.askBedrock({ prompt: input });
-    if (data) setResponse(data);
-    if (errors) console.error(errors);
+    // ここは後ほど権限設定が終わってから本格的に実装します
+    setResponse("送信されました（バックエンド接続準備中）: " + input);
   };
 
   return (
     <Authenticator>
       {({ signOut, user }) => (
-        <main className="flex flex-col items-center p-24">
-          <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-            <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-              Welcome, {user?.signInDetails?.loginId}
-            </p>
-            <button onClick={signOut} className="bg-red-500 text-white px-4 py-2 rounded">Sign Out</button>
+        <main className="flex flex-col items-center p-24 text-black bg-white min-h-screen">
+          <div className="w-full max-w-5xl flex justify-between items-center mb-8">
+            <h1 className="text-xl font-bold">AI Assistant</h1>
+            <div className="flex items-center gap-4">
+              <span>{user?.signInDetails?.loginId}</span>
+              <button onClick={signOut} className="bg-red-500 text-white px-4 py-2 rounded text-sm">Sign Out</button>
+            </div>
           </div>
 
-          <div className="mt-12 w-full max-w-2xl">
-            <div className="flex gap-4 mb-8">
+          <div className="w-full max-w-2xl bg-gray-50 p-6 rounded-lg shadow">
+            <div className="flex gap-2 mb-4">
               <input 
-                className="flex-1 p-2 border rounded text-black"
+                className="flex-1 p-2 border rounded"
                 value={input} 
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="GitHubリポジトリについて質問..."
+                placeholder="質問を入力..."
               />
-              <button onClick={handleChat} className="bg-blue-600 text-white px-6 py-2 rounded">送信</button>
+              <button onClick={handleChat} className="bg-blue-600 text-white px-4 py-2 rounded">送信</button>
             </div>
-            <div className="p-4 border rounded bg-white min-h-[100px] text-black">
+            <div className="p-4 border rounded bg-white min-h-[100px]">
               <strong>AIの回答:</strong>
               <p className="mt-2">{response}</p>
             </div>
