@@ -4,7 +4,7 @@ backend:
     build:
       commands:
         - npm install
-        # 変数を使わず、直接 ID とブランチを指定します
+        # IDとブランチを直接指定して、迷いなくバックエンドを構築させます
         - npx ampx pipeline-deploy --branch main --app-id d1mxmf2dr4vllz
 frontend:
   phases:
